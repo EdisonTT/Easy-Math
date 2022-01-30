@@ -1,0 +1,106 @@
+<div>
+  <h3 class="h3" style="margin-top: 20px">{{ name | uppercase }}</h3>
+  <hr style="height: 3px" />
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <button id="def" name="def" class="nav-link" (click)="def()">
+        Definition
+      </button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" (click)="cal()">Calculate</button>
+    </li>
+  </ul>
+  <div [mathjax]="" *ngIf="definition">
+    <h4 class="h4" style="margin-top: 3%">Definition</h4>
+    <p [mathjax]="" style="text-align: justify">
+      The {{ name | lowercase }} is a numerical technique. It is used to find
+      the value of a definite Integral. Sometimes, integrals can't find using
+      the ordinary methods. For example {{'$\\int_{0}^{1}{e^{x^{2}}}~dx$'}}. In
+      such cases, numerical techniques can be used.
+    </p>
+    <p [mathjax]="" style="text-align: justify">
+      Let {{ "$f$" }} be a continous function in the interval {{ "$[a,b]$" }}.
+      Also, {{ "$n$" }} be a positive integer greater than zero. Then the
+      interval can be divided into {{ "$n$" }} equal intervals. Let
+      {{ "$m_i$" }} be the midpoint of the subinterval. The length of an interval
+      is {{ "$\\Delta x$" }}
+    </p>
+    <p [mathjax]="" style="text-align: center; font-size: 120%">
+      {{ "$\\Delta x=\\frac{b-a}{n}$" }}
+    </p>
+    <p [mathjax]="" style="text-align: justify">Consider the summation:</p>
+    <p [mathjax]="" style="text-align: center; font-size: 120%">
+      {{ "$M_{n}=\\sum_{i=1}^{n} f(m_{i})\\cdot\\Delta x$" }}
+    </p>
+    Then it is true that:
+    <p [mathjax]="equation" style="text-align: center; font-size: 120%"></p>
+  </div>
+  <div *ngIf="calculation">
+    <h4 class="h4" style="margin-top: 3%">Calculate</h4>
+    <label for="input"> Input Function, </label><label [mathjax]="fun"></label>
+    <input
+      class="form-control"
+      style="width: 75%"
+      id="input"
+      name="input"
+      type="text"
+      [(ngModel)]="inputFunction"
+    />
+    <label for="lowerLimit"> Lower Limit, {{ "$a$" }} :</label>
+    <input
+      style="width: 5%"
+      id="lowerLimit"
+      name="lowerLimit"
+      type="number"
+      [(ngModel)]="lowerLimit"
+    />
+    <label for="upperLimit"> Upper Limit, {{ "$b$" }} :</label>
+    <input
+      style="width: 5%"
+      id="upperLimit"
+      name="upperLimit"
+      type="number"
+      [(ngModel)]="upperLimit"
+    />
+    <label for="noOfIntervals"> No of Intervals, {{ "$n$" }} :</label>
+    <input
+      style="width: 5%"
+      id="noOfIntervals"
+      name="noOfIntervals"
+      type="number"
+      [(ngModel)]="noOfIntervals"
+    />
+    <button class="btn btn-primary" (click)="click()">Calculate</button>
+    <div *ngIf="tableRow.length > 0">
+      <p>The value of {{ "$\\Delta x$" }} is {{ deltaXinLat }}.</p>
+      <p>The approximate value of the integral is:</p>
+      <p
+        [mathjax]="finalEquInLat"
+        style="text-align: center; font-size: 120%"
+      ></p>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Sl. No.</th>
+            <th scope="col">Interval</th>
+            <th scope="col" [mathjax]="fun_1"></th>
+            <th scope="col">{{ "$f(m_i)$" }}</th>
+            <th scope="col">
+              {{ "$f(m_i)\\cdot\\Delta x$" }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let x of tableRow; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ x.interval }}</td>
+            <td>{{ x.m_i }}</td>
+            <td>{{ x.f_m_i }}</td>
+            <td>{{ x.product }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

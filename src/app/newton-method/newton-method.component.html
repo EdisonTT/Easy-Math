@@ -1,0 +1,108 @@
+<body>
+  <div>
+    <h3 class="h3" style="margin-top: 20px">{{ name | uppercase }}</h3>
+    <hr style="height: 3px" />
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <button id="def" name="def" class="nav-link" (click)="def()">
+          Definition
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" (click)="cal()">Calculate</button>
+      </li>
+    </ul>
+    <div *ngIf="definition">
+      <h4 class="h4" style="margin-top: 3%">Definition</h4>
+      <p style="text-align: justify">
+        In numerical analysis, Newton's method, also known as the Newton–Raphson
+        method, named after Isaac Newton and Joseph Raphson, is a root-finding
+        algorithm which produces successively better approximations to the roots
+        (or zeroes) of a real-valued function. The most basic version starts
+        with a single-variable function {{ "$f$" }} defined for a real variable
+        {{ "$x$" }}, the function's derivative {{ "$f'$" }}, and an initial
+        guess {{ "$x_0$" }} for a root of {{ "$f$" }}. If the function satisfies
+        sufficient assumptions and the initial guess is close, then
+      </p>
+      <p style="text-align: center; font-size: 120%" [mathjax]="equation">
+        <!-- {{ "$x_{1}=x_{0}-\\frac{f(x_{0})}{f'(x_{0})}$" }} -->
+      </p>
+      <p style="text-align: justify">
+        is a better approximation of the root than {{ "$x_0$" }}. Geometrically,
+        {{ "$(x_1, 0)$" }} is the intersection of the {{ "$x$" }}-axis and the
+        tangent of the graph of {{ "$f$" }} at {{ "$(x_0, f(x_0))$" }}: that is,
+        the improved guess is the unique root of the linear approximation at the
+        initial point. The process is repeated as
+      </p>
+      <p style="text-align: center; font-size: 120%">
+        {{ "$x_{n+1}=x_{n}-\\frac{f(x_{n})}{f'(x_{n})}$" }}
+      </p>
+      <p style="text-align: justify">
+        until a sufficiently precise value is reached. This algorithm is first
+        in the class of Householder's methods, succeeded by Halley's method. The
+        method can also be extended to complex functions and to systems of
+        equations.<br /><br />
+        Source -
+        <a href="https://en.wikipedia.org/wiki/Newton%27s_method">Wikipedia</a>
+      </p>
+    </div>
+    <div [mathjax] *ngIf="calculation">
+      <h4 class="h4" style="margin-top: 3%">Calculate</h4>
+      <label for="function">Input Function {{ "$f(x)$" }} : </label>
+      <input
+        class="form-control"
+        id="function"
+        type="text"
+        [(ngModel)]="inputFunction"
+        style="width: 75%"
+      />
+      <!-- To Display the input finction -->
+      <!-- <label>Function Preview : {{ "$f(x) = $" }}</label
+      ><label [mathjax]="inputFunctionLatex"></label><br /> -->
+      <!-- To Display the Derivative of the function -->
+      <label>First derivative : {{ "$f'(x) = $" }}</label
+      ><label [mathjax]="DerFunctionLatex"></label><br />
+
+      <label for="decimal">Correct upto :</label>
+      <input
+        class=""
+        id="decimal"
+        type="number"
+        [(ngModel)]="decimalPlaces"
+        style="width: 5%; box-sizing: 20%"
+      />
+
+      <label for="guess">Initial Guess</label>
+      <input
+        style="width: 5%; box-sizing: 20%"
+        id="guess"
+        type="number"
+        [(ngModel)]="initialGuess"
+      />
+
+      <button class="btn btn-primary" type="submit" (click)="click()">
+        Calculate
+      </button>
+      <table class="table table-hover" *ngIf="tableRow.length > 0">
+        <thead>
+          <tr>
+            <th scope="col">{{ "$n$" }}</th>
+            <th scope="col">{{ "$x_{n}$" }}</th>
+            <th scope="col">{{ "$f(x)$" }}</th>
+            <th scope="col">
+              {{ "$|f(x_{n})-f(x_{n-1})|$" }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let x of tableRow">
+            <td>{{ x.index }}</td>
+            <td>{{ x.x }}</td>
+            <td>{{ x.f }}</td>
+            <td>{{ x.diff }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
